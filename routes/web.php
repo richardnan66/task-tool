@@ -12,5 +12,18 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check())
+        return File::get(public_path() . '/dashboard/index.html');
+    return view('auth.login');
+});
+
+Auth::routes();
+
+Route::get('logout', function (){
+    Auth::logout();
+    return redirect('/');
+});
+
+Route::fallback(function () {
+    return redirect('/');
 });
